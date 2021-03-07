@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>The Star Wars API</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<section class="form-wrapper">
+    <form class="search-form">
+        <input type="text" class="search" placeholder="Название планеты" title="Поле ввода">
+        <ul class="suggestions">
+            <li>Загрузка...</li>
+        </ul>
+    </form>
+</section>
+<script>
+
+    const endpoint = 'https://swapi.dev/api/planets/';
+    const intl = new Intl.NumberFormat('ru-RU');
+
+    let planets = [];
+
+
+    fetch(endpoint)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            planets.push.apply(planets, data.results);
+            display(planets);
+            return planets;
+        })
+        .catch(err => console.log(err));
+
+
+
+
+    function display(planets) {
+        let html = planets.map(function (planet) {
+            return `<li> <span class="name">${planet.name}</span>
+                         <span class="population">${planet.population}</span>
+                    </li>`;
+        }).join('');
+        suggestions.innerHTML = html;
+    }
+
+
+
+    function findMatches(wordToMatch, planets) {
+        return planets.filter(function (planet) {
+            let regex = new RegExp(wordToMatch, 'gi');
+            return planet.name.match(regex);
+        })
+    }
+
+
+    function numberWithCommas(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    function displayMatches() {
+        let _this = this;
+        let matchArray = findMatches(this.value, planets);
+        let html = matchArray.map(function (planet) {
+            let regex = new RegExp(_this.value, 'gi');
+            let planetName = planet.name.replace(regex, '<span class="highlighted">' + _this.value + '</span>');
+            return '      <li>  <span class="name">' + planetName + '</span> <span class="population">' + numberWithCommas(planet.population) + '</span>  </li>   ';
+        }).join('');
+        suggestions.innerHTML = html;
+    }
+
+
+
+    const searchInput = document.querySelector('.search');
+    const suggestions = document.querySelector('.suggestions');
+
+    searchInput.addEventListener('change', displayMatches);
+    searchInput.addEventListener('keyup', displayMatches);
+
+</script>
+</body>
+</html>

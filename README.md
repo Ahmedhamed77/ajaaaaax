@@ -1,15 +1,11 @@
-<h1 align="center">Responsive Web Page</h1>
+<h1 align="center">API Search</h1>
 
 <div align="center">
-   Solution for a Responsive web Page Task.
+   Solution for a searching on data from API using JS.
 </div>
 
 <div align="center">
   <h3>
-    <a href="https://github.com/Ahmedhamed77/Social_Media_Page">
-      Demo
-    </a>
-    <span> | </span>
     <a href="https://ahmedhamed77.github.io/ajaaaaax/">
       Solution
     </a>
